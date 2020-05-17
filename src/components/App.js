@@ -15,6 +15,7 @@ class App extends React.Component {
     };
 
     this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.onDayClicked = this.onDayClicked.bind(this);
   }
   onFormSubmit(zipcode) {
     get(`http://localhost:3000/weather/${zipcode}`).then(({ data }) => {
@@ -23,11 +24,16 @@ class App extends React.Component {
       this.setState({ zipcode, city, dates, selectedDate: null });
     });
   }
+
+  onDayClicked(dayIndex) {
+    this.setState({ selectedDate: dayIndex });
+  }
+
   render() {
     return (
       <div className="app">
         <ZipForm onSubmit={this.onFormSubmit} />
-        <WeatherList days={this.state.dates} />
+        <WeatherList days={this.state.dates} onDayClicked={this.onDayClicked} />
       </div>
     );
   }
